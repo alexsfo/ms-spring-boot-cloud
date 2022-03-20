@@ -35,6 +35,13 @@ public class WorkerResource {
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Worker> findById(@PathVariable Long id) {
+
+		//testing timeout error Zuul
+//		try {
+//			Thread.sleep(3000L);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		return ResponseEntity.ok(Objects.requireNonNull(repository.findById(id).orElse(null)));
 	}	
 
