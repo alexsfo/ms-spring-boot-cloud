@@ -1,7 +1,7 @@
 package com.alexsandro.hrworker.resources;
 
-import java.util.List;
-
+import com.alexsandro.hrworker.entities.Worker;
+import com.alexsandro.hrworker.repositories.WorkerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alexsandro.hrworker.entities.Worker;
-import com.alexsandro.hrworker.repositories.WorkerRepository;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/workers")
@@ -22,7 +22,7 @@ public class WorkerResource {
 	@Autowired
 	private Environment env;
 	
-	private static Logger logger = LoggerFactory.getLogger(WorkerResource.class);
+	private static final Logger logger = LoggerFactory.getLogger(WorkerResource.class);
 
 	@Autowired
 	private WorkerRepository repository;
@@ -35,8 +35,7 @@ public class WorkerResource {
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Worker> findById(@PathVariable Long id) {
-		logger.info("port: " + env.getProperty("local.server.port"));
-		return ResponseEntity.ok(repository.findById(id).orElse(null));
+		return ResponseEntity.ok(Objects.requireNonNull(repository.findById(id).orElse(null)));
 	}	
 
 }
